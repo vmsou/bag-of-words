@@ -10,8 +10,11 @@ def main() -> None:
         "O carteiro comprou uma carteira nova"
     ]
 
-    vocabulary: Vocabulary[str] = Vocabulary.texts_to_words(sentences)
+    vocabulary: Vocabulary[str] = Vocabulary.texts_to_vocabulary(sentences)
     print(vocabulary)
+
+    for sentence in sentences:
+        print(vocabulary.vectorize(sentence))
 
 
 if __name__ == "__main__":
