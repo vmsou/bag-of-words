@@ -2,13 +2,20 @@ from __future__ import annotations
 from typing import Set, List, Generic, TypeVar, Iterable, Dict
 
 import pandas as pd
+import spacy
+from spacy.tokens.doc import Doc
 
+# Type Alias
 _T = TypeVar("_T")
+
+# Config
+nlp: spacy.Language = spacy.load("en_core_web_sm")
 
 
 def text_to_words(text: str) -> list[str]:
-    """ TODO: Better word separator. """
-    return text.split()
+    """ Separates words from text. """
+    doc: spacy.tokens.doc.Doc = nlp(text)
+    return [token.text for token in doc if not token.is_punct]
 
 
 class Vocabulary(Generic[_T], Iterable):
@@ -43,9 +50,7 @@ class Vocabulary(Generic[_T], Iterable):
     def vectorize(self, text: str) -> list[int]:
         vector: list[int] = [0 for _ in range(len(self.data))]
         for word in text_to_words(text):
-            print(word, end=' ')
             vector[self.index(word)] += 1
-        print()
         return vector
 
     def to_matrix(self, sentences: list[str]) -> pd.DataFrame:
