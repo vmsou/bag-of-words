@@ -1,11 +1,13 @@
 from __future__ import annotations
 from typing import Set, List, Generic, TypeVar, Iterable, Dict
 
+import pandas as pd
+
 _T = TypeVar("_T")
 
 
 def text_to_words(text: str) -> list[str]:
-    """ TODO: Better word finder. """
+    """ TODO: Better word separator. """
     return text.split()
 
 
@@ -45,6 +47,15 @@ class Vocabulary(Generic[_T], Iterable):
             vector[self.index(word)] += 1
         print()
         return vector
+
+    def to_matrix(self, sentences: list[str]) -> pd.DataFrame:
+        """ Converts data to Document-term matrix. """
+        matrix: pd.DataFrame = pd.DataFrame(columns=self.data)
+        for i in range(len(sentences)):
+            sentence: str = sentences[i]
+            vector: List[int] = self.vectorize(sentence)
+            matrix.loc[i + 1] = vector
+        return matrix
 
     @staticmethod
     def text_to_vocabulary(text: str) -> 'Vocabulary'[_T]:
