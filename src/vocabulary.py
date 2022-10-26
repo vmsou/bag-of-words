@@ -5,16 +5,15 @@ import pandas as pd
 import spacy
 from spacy.tokens.doc import Doc
 
+from corpus import NLP
+
 # Type Alias
 _T = TypeVar("_T")
-
-# Config
-nlp: spacy.Language = spacy.load("en_core_web_sm")
 
 
 def text_to_words(text: str) -> list[str]:
     """ Separates words from text. """
-    doc: spacy.tokens.doc.Doc = nlp(text)
+    doc: spacy.tokens.doc.Doc = NLP(text)
     return [token.text for token in doc if not token.is_punct]
 
 
