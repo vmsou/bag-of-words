@@ -1,4 +1,4 @@
-from typing import List, Dict, TypedDict
+from typing import List, Dict
 
 import bs4 as bs4
 import requests
@@ -14,9 +14,10 @@ logger.setLevel(logging.INFO)
 HEADER: Dict[str, str] = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 
-class ArticleDict(TypedDict):
-    title: str
-    link: str
+class Article:
+    def __init__(self, title: str, link: str):
+        self.title: str = title
+        self.link: str = link
 
 
 def sentences_from_text(text: str) -> List[str]:
