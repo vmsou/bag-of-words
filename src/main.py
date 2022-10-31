@@ -18,12 +18,12 @@ from corpus.scraper import Article, sentences_from_site
 
 DEFAULT_ARTICLES: List[Article] = [
     Article(
-        title="Natural language processing: an introduction",
-        link="https://academic.oup.com/jamia/article/18/5/544/829676?ref=https%3A%2F%2Fcodemonkey.link&login=false"
-    ),
-    Article(
         title="Your Guide to Natural Language Processing (NLP)",
         link="https://www.datasciencecentral.com/your-guide-to-natural-language-processing-nlp/"
+    ),
+    Article(
+        title="Natural language processing: an introduction",
+        link="https://academic.oup.com/jamia/article/18/5/544/829676?ref=https%3A%2F%2Fcodemonkey.link&login=false"
     ),
     Article(
         title="Natural language processing: State of the art, current trends and challenges",

@@ -11,7 +11,7 @@ from corpus import NLP
 _T = TypeVar("_T")
 
 
-def text_to_words(text: str) -> list[str]:
+def text_to_words(text: str) -> List[str]:
     """ Separates words from text. """
     doc: spacy.tokens.doc.Doc = NLP(text)
     return [token.text for token in doc if not token.is_punct]
@@ -35,7 +35,7 @@ class Vocabulary(Generic[_T], Iterable):
     def index(self, item: _T): return self.position[item]
 
     def add(self, __o: _T) -> None:
-        """ Appends an unique element to list. """
+        """ Appends an unique element to List. """
         if __o in self.unique: return
         self.position[__o] = len(self.data)
         self.unique.add(__o)
@@ -46,13 +46,13 @@ class Vocabulary(Generic[_T], Iterable):
         for element in vec:
             self.add(element)
 
-    def vectorize(self, text: str) -> list[int]:
-        vector: list[int] = [0 for _ in range(len(self.data))]
+    def vectorize(self, text: str) -> List[int]:
+        vector: List[int] = [0 for _ in range(len(self.data))]
         for word in text_to_words(text):
             vector[self.index(word)] += 1
         return vector
 
-    def to_matrix(self, sentences: list[str]) -> pd.DataFrame:
+    def to_matrix(self, sentences: List[str]) -> pd.DataFrame:
         """ Converts data to Document-term matrix. """
         matrix: pd.DataFrame = pd.DataFrame(columns=self.data)
         for i in range(len(sentences)):
