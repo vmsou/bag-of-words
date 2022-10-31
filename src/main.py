@@ -40,6 +40,20 @@ DEFAULT_ARTICLES: List[Article] = [
 ]
 
 
+def sentences_from_articles(articles: List[Article]) -> List[List[str]]:
+    articles_sentences: List[List[str]] = []
+    for article in articles:
+        url: str = article.link
+        current_sentences: List[str] = sentences_from_site(url)
+        print(f"{article.title}({article.link}): {len(current_sentences)} sentences.")
+        start: int = len(current_sentences) // 4
+        for report in current_sentences[start:start + 3]:
+            print(f"> '{report}'")
+        print("...\n")
+        articles_sentences.append(current_sentences)
+    return articles_sentences
+
+
 def main() -> None:
     sentences: List[str] = [
         "A carteira colocou a carteira na carteira.",
@@ -54,23 +68,20 @@ def main() -> None:
         print(f"{article.title}: {article.link}")
     print("".center(80, '-'))
 
-    all_sentences: List[List[str]] = []
-
-    for article in articles:
-        url: str = article.link
-        current_sentences: List[str] = sentences_from_site(url)
-        print(f"{article.title}({article.link}): {len(current_sentences)} sentences.")
-        start: int = len(current_sentences) // 4
-        for report in current_sentences[start:start + 3]:
-            print(f"> '{report}'")
-        print("...\n")
-        all_sentences.append(current_sentences)
+    documents_sentences: List[List[str]] = sentences_from_articles(articles)
+    if documents_sentences:
+        # Flatten sentences
+        sentences = [sentence for sentences in documents_sentences for sentence in sentences]
 
     # Generate vocabulary from sentences
+    print("Generating vocabulary...", end=' ')
     vocabulary: Vocabulary[str] = Vocabulary.texts_to_vocabulary(sentences)
+    print('Done.')
 
     # Generate Document-term matrix
+    print("Generating Document-term matrix...", end=' ')
     matrix: pd.DataFrame = vocabulary.to_matrix(sentences)
+    print("Done.")
 
     print(matrix.head(3))
 
